@@ -58,8 +58,8 @@ install:
 	cp $(EXE) /usr/sbin
 	cp -n $(CONF) /etc
 	@echo "-----------------------------------------------------------------------------"
-	@echo "An init file suitable for /lib/lsb/init-functions (Debian & Ubuntu for sure)"
-	@echo "is located in the main folder of the source files, called mbpfan.init.debian"
+	@echo "An init file suitable for /lib/lsb/init-functions (Debian) s located in the"
+	@echo "main folder of the source files, called mbpfan.init.debian"
 	@echo "Rename it to mbpfan, give it execution permissions (chmod +x mbpfan)"
 	@echo "and move it to /etc/init.d"
 	@echo "Then, add it to the default runlevels with sudo update-rc.d mbpfan defaults"
@@ -79,6 +79,12 @@ install:
 	@echo "systemctl start mbpfan.service"
 	@echo "To start the service automatically at boot, also execute the following:"
 	@echo "systemctl enable mbpfan.service"
+	@echo ""
+	@echo "For upstart based init systems (Ubuntu), an example upstart job has been"
+	@echo "provided for use in place of the LSB-style init script. To use, execute"
+	@echo "as root:"
+	@echo "cp mbpfan.upstart /etc/init/mbpfan.conf"
+	@echo "start mbpfan"
 	@echo "-----------------------------------------------------------------------------"
 
 rebuild: clean all

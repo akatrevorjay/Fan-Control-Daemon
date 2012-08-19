@@ -1,0 +1,31 @@
+# mbpfan - A simple daemon to control fan speed on all Macbook/Macbook Pros \
+#   (probably all Apple computers) for Linux 3.x.x
+#
+# The OpenSSH server provides secure shell access to the system.
+
+description	"mbpfan"
+
+start on filesystem or runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+respawn limit 10 5
+umask 022
+
+console log
+
+pre-start script
+    test -x /usr/sbin/mbpfan || { stop; exit 0; }
+    # Why does this app not cleanup after itself or have an option to turn pidfile
+    #   writing off? I apologize for the following nastiness, but pid files are
+    #   not needed with upstart.
+    rm -f /var/run/mbpfan.pid
+end script
+
+## foreground while not interactive makes this app segfault consistently it seems.
+#exec /usr/sbin/mbpfan -fv
+
+## Just start it in background till above is fixed. Upstart is really good about
+expect fork
+exec /usr/sbin/mbpfan
+
